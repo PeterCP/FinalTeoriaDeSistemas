@@ -17,20 +17,23 @@ def main():
             # Main loop which emulates a do while loop
             iteration = 0
             while True:
-                convergence, cache_hits, db_hits = test_convergence(cache, record_count)
+                tests, cache_hits, db_hits = test_convergence(cache, record_count)
+
+                cache_hit_percentage = cache_hits / tests
+                db_hit_percentage = db_hits / tests
 
                 print("Results for iteration %s" % iteration)
                 print("    setpoint               = %s" % setpoint)
                 print("    tests_done             = %s" % config.TESTS)
-                print("    db_hits                = %s" % db_hits)
                 print("    record_count           = %s" % record_count)
-                print("    db_hit_percentage      = %s" % (db_hits / config.TESTS))
+                print("    db_hits                = %s" % db_hits)
+                print("    db_hit_percentage      = %s" % db_hit_percentage)
                 print("    cache_hits             = %s" % cache_hits)
-                print("    cache_hit_percentage   = %s" % (cache_hits / config.TESTS))
-                print("    error                  = %s" % (setpoint - db_hits / config.TESTS))
+                print("    cache_hit_percentage   = %s" % cache_hit_percentage)
+                print("    error                  = %s" % (setpoint - cache_hit_percentage))
                 print()
 
-                if convergence >= setpoint:
+                if cache_hit_percentage >= setpoint:
                     break
                 else:
                     iteration += 1

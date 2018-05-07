@@ -25,13 +25,16 @@ def ask_for_setpoint():
 
 # Function to test convergence. Returns a percentage (0 <= result <= 1).
 def test_convergence(cache, record_count):
-    hits = 0
+    cache_hits = 0
+    db_hits = 0
     for i in range(0, config.TESTS):
         key = str(randint(1, record_count))
         if cache.get(key) is not None:
-            hits += 1
-    # Return convergence, cache_hits, db_hits
-    return hits / config.TESTS, hits, config.TESTS - hits
+            cache_hits += 1
+        else:
+        	db_hits += 1
+    # Return tests_done, cache_hits, db_hits
+    return config.TESTS, cache_hits, db_hits
 
 def add_to_cache(db, cache, record_count):
     added = 0
